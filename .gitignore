@@ -28,3 +28,6 @@ coverage.out
 
 # IDE
 .idea
+
+# go module
+go.sum
