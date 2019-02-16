@@ -110,9 +110,9 @@ func (r *Client) GetRawDashboard(slug string) ([]byte, BoardProperties, error) {
 	return []byte(result.Board), result.Meta, err
 }
 
-// GetRawDashboardByID is equivalent to GetRawDashboard() but takes an ID as
+// GetRawDashboardByID is equivalent to GetRawDashboard() but takes an UID as
 // parameter.
-func (r *Client) GetRawDashboardByID(id int) ([]byte, BoardProperties, error) {
+func (r *Client) GetRawDashboardByID(uid string) ([]byte, BoardProperties, error) {
 	var (
 		raw    []byte
 		result struct {
@@ -122,7 +122,7 @@ func (r *Client) GetRawDashboardByID(id int) ([]byte, BoardProperties, error) {
 		code int
 		err  error
 	)
-	if raw, code, err = r.get(fmt.Sprintf("api/dashboards/uid/%d", id), nil); err != nil {
+	if raw, code, err = r.get(fmt.Sprintf("api/dashboards/uid/%s", uid), nil); err != nil {
 		return nil, BoardProperties{}, err
 	}
 	if code != 200 {
