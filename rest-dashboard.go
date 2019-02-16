@@ -110,6 +110,32 @@ func (r *Client) GetRawDashboard(slug string) ([]byte, BoardProperties, error) {
 	return []byte(result.Board), result.Meta, err
 }
 
+// GetRawDashboardByID is equivalent to GetRawDashboard() but takes an ID as
+// parameter.
+func (r *Client) GetRawDashboardByID(id int) ([]byte, BoardProperties, error) {
+	var (
+		raw    []byte
+		result struct {
+			Meta  BoardProperties `json:"meta"`
+			Board json.RawMessage `json:"dashboard"`
+		}
+		code int
+		err  error
+	)
+	if raw, code, err = r.get(fmt.Sprintf("api/dashboards/uid/%d", id), nil); err != nil {
+		return nil, BoardProperties{}, err
+	}
+	if code != 200 {
+		return nil, BoardProperties{}, fmt.Errorf("HTTP error %d: returns %s", code, raw)
+	}
+	dec := json.NewDecoder(bytes.NewReader(raw))
+	dec.UseNumber()
+	if err := dec.Decode(&result); err != nil {
+		return nil, BoardProperties{}, fmt.Errorf("unmarshal board with meta: %s\n%s", err, raw)
+	}
+	return []byte(result.Board), result.Meta, err
+}
+
 // FoundBoard keeps result of search with metadata of a dashboard.
 type FoundBoard struct {
 	ID        uint     `json:"id"`
