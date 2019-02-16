@@ -1,33 +1,21 @@
-# Compiled Object files, Static and Dynamic libs (Shared Objects)
-*.o
-*.a
-*.so
-
-# Folders
-_obj
-_test
-
-# Architecture specific extensions/prefixes
-*.[568vq]
-[568vq].out
-
-*.cgo1.go
-*.cgo2.c
-_cgo_defun.c
-_cgo_gotypes.go
-_cgo_export.*
-
-_testmain.go
-
+# Binaries for programs and plugins
 *.exe
+*.dll
+*.so
+*.dylib
+
+# Test binary, build with `go test -c`
 *.test
-*.prof
 
-# Tests
-coverage.out
+# Output of the go coverage tool
+*.out
 
-# IDE
-.idea
+# External packages folder
+# vendor/
+_vendor-*/
 
-# go module
-go.sum
+# Build artifacts
+.build
+
+# Dot env files
+.env

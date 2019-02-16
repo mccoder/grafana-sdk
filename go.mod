@@ -1,4 +1,4 @@
-module sdk
+module github.com/lukasmalkmus/sdk
 
 require (
 	github.com/gosimple/slug v1.4.2
