@@ -277,7 +277,7 @@ func (r *Client) SetRawDashboardToFolder(raw []byte, folderID int) error {
 	buf.WriteString(`{"dashboard":`)
 	buf.Write(raw)
 	buf.WriteString(fmt.Sprintf(`, "folderId": %d,`, folderID))
-	buf.WriteString(`, "overwrite": true}`)
+	buf.WriteString(`"overwrite": true}`)
 	if rawResp, code, err = r.post("api/dashboards/db", nil, buf.Bytes()); err != nil {
 		return err
 	}
