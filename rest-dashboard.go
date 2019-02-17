@@ -257,6 +257,42 @@ func (r *Client) SetRawDashboard(raw []byte) error {
 	return nil
 }
 
+// SetRawDashboardToFolder is the same as SetRawDashboard() but puts the
+// dashboard into the specified folder.
+func (r *Client) SetRawDashboardToFolder(raw []byte, folderID int) error {
+	var (
+		rawResp []byte
+		resp    StatusMessage
+		code    int
+		err     error
+		buf     bytes.Buffer
+		plain   = make(map[string]interface{})
+	)
+	if err = json.Unmarshal(raw, &plain); err != nil {
+		return err
+	}
+	// TODO(axel) fragile place, refactor it
+	plain["id"] = 0
+	raw, _ = json.Marshal(plain)
+	buf.WriteString(`{"dashboard":`)
+	buf.Write(raw)
+	buf.WriteString(fmt.Sprintf(`, "folderId": %d,`, folderID))
+	buf.WriteString(`, "overwrite": true}`)
+	if rawResp, code, err = r.post("api/dashboards/db", nil, buf.Bytes()); err != nil {
+		return err
+	}
+	if err = json.Unmarshal(rawResp, &resp); err != nil {
+		return err
+	}
+	switch code {
+	case 401:
+		return fmt.Errorf("%d %s", code, *resp.Message)
+	case 412:
+		return fmt.Errorf("%d %s", code, *resp.Message)
+	}
+	return nil
+}
+
 // DeleteDashboard deletes dashboard that selected by slug string.
 // Grafana only can delete a dashboard in a database. File dashboards
 // may be only loaded with HTTP API but not deteled.
