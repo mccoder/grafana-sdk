@@ -313,6 +313,24 @@ func (r *Client) DeleteDashboard(slug string) (StatusMessage, error) {
 	return reply, err
 }
 
+// StarDashboard stars the dashboard for the actual user.
+func (r *Client) StarDashboard(id uint) (StatusMessage, error) {
+	var (
+		raw   []byte
+		reply StatusMessage
+		code  int
+		err   error
+	)
+	if raw, code, err = r.post(fmt.Sprintf("api/user/stars/dashboard/%d", id), nil, nil); err != nil {
+		return StatusMessage{}, err
+	}
+	if code != 200 {
+		return StatusMessage{}, fmt.Errorf("HTTP error %d: returns %s", code, raw)
+	}
+	err = json.Unmarshal(raw, &reply)
+	return reply, err
+}
+
 // implicitly use dashboards from Grafana DB not from a file system
 func setPrefix(slug string) (string, bool) {
 	if strings.HasPrefix(slug, "db") {
