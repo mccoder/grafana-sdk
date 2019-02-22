@@ -60,9 +60,9 @@ func (r *Client) SetFolderPermissionForUser(uid string, userID, perm uint) (Stat
 		code   int
 		err    error
 	)
-	params := make(map[string][]map[string]int)
-	params["items"] = []map[string]int{
-		map[string]int{"userID": userID, "permission": perm},
+	params := make(map[string][]map[string]uint)
+	params["items"] = []map[string]uint{
+		map[string]uint{"userID": userID, "permission": perm},
 	}
 	paramsBytes, err := json.Marshal(params)
 	if err != nil {
