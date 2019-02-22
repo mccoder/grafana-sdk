@@ -134,3 +134,23 @@ func (r *Client) SearchUsersWithPaging(query *string, perpage, page *int) (PageU
 	}
 	return pageUsers, err
 }
+
+func (r *Client) SetHomeDashboard(id uint) (StatusMessage, error) {
+	var (
+		buf  bytes.Buffer
+		raw  []byte
+		resp StatusMessage
+		code int
+		err  error
+	)
+	buf.WriteString(fmt.Sprintf("{\"homeDashboardId\":%d}", id))
+	if raw, code, err = r.post("api/org/preferences", nil, buf.Bytes()); err != nil {
+		return StatusMessage{}, err
+	}
+	if code != 200 {
+		return StatusMessage{}, fmt.Errorf("HTTP error %d: returns %s", code, raw)
+	}
+	dec := json.NewDecoder(bytes.NewReader(raw))
+	dec.UseNumber()
+	return resp, dec.Decode(&resp)
+}
