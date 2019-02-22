@@ -53,7 +53,7 @@ func (r *Client) GetFolderByUID(uid string) (Folder, error) {
 	return result, nil
 }
 
-func (r *Client) SetFolderPermissionForUser(uid string, userID, perm int) (StatusMessage, error) {
+func (r *Client) SetFolderPermissionForUser(uid string, userID, perm uint) (StatusMessage, error) {
 	var (
 		raw    []byte
 		result StatusMessage
