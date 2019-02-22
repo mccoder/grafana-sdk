@@ -53,6 +53,35 @@ func (r *Client) GetFolderByUID(uid string) (Folder, error) {
 	return result, nil
 }
 
+func (r *Client) SetFolderPermissionForUser(uid string, userID, perm int) (StatusMessage, error) {
+	var (
+		raw    []byte
+		result StatusMessage
+		code   int
+		err    error
+	)
+	params := make(map[string][]map[string]int)
+	params["items"] = []map[string]int{
+		map[string]int{"userID": userID, "permission": perm},
+	}
+	paramsBytes, err := json.Marshal(params)
+	if err != nil {
+		return StatusMessage{}, err
+	}
+	if raw, code, err = r.post("/api/folders/"+uid+"/permissions", nil, paramsBytes); err != nil {
+		return StatusMessage{}, err
+	}
+	if code != 200 {
+		return StatusMessage{}, fmt.Errorf("HTTP error %d: returns %s", code, raw)
+	}
+	dec := json.NewDecoder(bytes.NewReader(raw))
+	dec.UseNumber()
+	if err := dec.Decode(&result); err != nil {
+		return StatusMessage{}, fmt.Errorf("unmarshal folder error: %s\n%s", err, raw)
+	}
+	return result, nil
+}
+
 func (r *Client) CreateFolder(uid, title string) (Folder, error) {
 	var (
 		raw    []byte
