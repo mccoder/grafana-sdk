@@ -144,7 +144,7 @@ func (r *Client) SetHomeDashboard(id uint) (StatusMessage, error) {
 		err  error
 	)
 	buf.WriteString(fmt.Sprintf("{\"homeDashboardId\":%d}", id))
-	if raw, code, err = r.post("api/org/preferences", nil, buf.Bytes()); err != nil {
+	if raw, code, err = r.post("api/user/preferences", nil, buf.Bytes()); err != nil {
 		return StatusMessage{}, err
 	}
 	if code != 200 {
