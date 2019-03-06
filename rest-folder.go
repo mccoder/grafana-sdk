@@ -18,7 +18,7 @@ func (r *Client) GetAllFolder(limit string) ([]Folder, error) {
 	if "" != limit {
 		params.Set("limit", limit)
 	}
-	if raw, code, err = r.get("/api/folders", params); err != nil {
+	if raw, code, err = r.get("api/folders", params); err != nil {
 		return nil, err
 	}
 	if code != 200 {
@@ -39,7 +39,7 @@ func (r *Client) GetFolderByUID(uid string) (Folder, error) {
 		code   int
 		err    error
 	)
-	if raw, code, err = r.get("/api/folders/"+uid, nil); err != nil {
+	if raw, code, err = r.get("api/folders/"+uid, nil); err != nil {
 		return Folder{}, err
 	}
 	if code != 200 {
@@ -68,7 +68,7 @@ func (r *Client) SetFolderPermissionForUser(uid string, userID, perm uint) (Stat
 	if err != nil {
 		return StatusMessage{}, err
 	}
-	if raw, code, err = r.post("/api/folders/"+uid+"/permissions", nil, paramsBytes); err != nil {
+	if raw, code, err = r.post("api/folders/"+uid+"/permissions", nil, paramsBytes); err != nil {
 		return StatusMessage{}, err
 	}
 	if code != 200 {
@@ -96,7 +96,7 @@ func (r *Client) CreateFolder(uid, title string) (Folder, error) {
 	if err != nil {
 		return Folder{}, err
 	}
-	if raw, code, err = r.post("/api/folders", nil, paramsBytes); err != nil {
+	if raw, code, err = r.post("api/folders", nil, paramsBytes); err != nil {
 		return Folder{}, err
 	}
 	if code != 200 {
