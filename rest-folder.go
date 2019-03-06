@@ -110,7 +110,7 @@ func (r *Client) CreateFolder(uid, title string) (Folder, error) {
 
 func (r *Client) DeleteFolder(uid string) (StatusMessage, error) {
 	var resp StatusMessage
-	if raw, code, err := r.delete("/api/folders/" + uid); err != nil {
+	if raw, code, err := r.delete("api/folders/" + uid); err != nil {
 		return StatusMessage{}, err
 	} else if code != 200 {
 		return StatusMessage{}, fmt.Errorf("HTTP error %d: returns %s", code, raw)
