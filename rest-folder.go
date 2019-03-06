@@ -107,3 +107,15 @@ func (r *Client) CreateFolder(uid, title string) (Folder, error) {
 	}
 	return result, nil
 }
+
+func (r *Client) DeleteFolder(uid string) (StatusMessage, error) {
+	var resp StatusMessage
+	if raw, code, err := r.delete(fmt.Sprintf("api/folders/%s", uid)); err != nil {
+		return StatusMessage{}, err
+	} else if code != 200 {
+		return StatusMessage{}, fmt.Errorf("HTTP error %d: returns %s", code, raw)
+	} else if err := json.Unmarshal(raw, &resp); err != nil {
+		return StatusMessage{}, err
+	}
+	return resp, nil
+}
