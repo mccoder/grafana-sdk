@@ -1,4 +1,4 @@
-module github.com/lukasmalkmus/sdk
+module github.com/mccoder/grafana-sdk
 
 require (
 	github.com/gosimple/slug v1.4.2

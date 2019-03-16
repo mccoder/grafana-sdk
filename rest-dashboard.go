@@ -140,7 +140,9 @@ func (r *Client) GetRawDashboardByID(uid string) ([]byte, BoardProperties, error
 type FoundBoard struct {
 	ID        uint     `json:"id"`
 	Title     string   `json:"title"`
+	UID       string   `json:"uid"`
 	URI       string   `json:"uri"`
+	URL       string   `json:"url"`
 	Type      string   `json:"type"`
 	Tags      []string `json:"tags"`
 	IsStarred bool     `json:"isStarred"`
